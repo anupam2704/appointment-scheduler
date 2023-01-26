@@ -47,34 +47,40 @@ const Scheulder = (props: SchedulerProps) : JSX.Element => {
   }
 
   return (
-    <Grid container style={{ height: '100%', width: '100%', background: 'wheatsmoke'}}>
-      <Grid item xs={12} style={{ borderBottom: '1px solid #CCCCCC'}}>
-        <div style={{ padding: 20}}>
-          <ScheulderHeader
-            selectValue={selectedOffice}
-            selectOptions={selectOptions}
-            selectLabel={selectLabel}
-            onSelectValueChange={handleSelectValChange}
-            />
-        </div>
-      </Grid>
-      <Grid item xs={3} style={{ borderRight: '1px solid #CCCCCC' }} >
-        <div style={{ padding: 20}}>
-          <SchedulerDatePicker
-            selectedDate={selectedDate}
-            handleDateChange={handleDateChange}
-            minDatePeriodFromNow={minDatePeriodFromNow}
-            maxDatePeriodFromNow={maxDatePeriodFromNow}
-            dateFormat={dateFormat}
-            />
-        </div>
-      </Grid>
-      <Grid item xs={9}>
-        <div style={{ padding: 20}}>
-          <ScheulderAppointment selectedDate={selectedDate} selectedOffice={selectedOffice} />
-        </div>
-      </Grid>
-    </Grid>
+    <div style={{ height: '100%', width: '100%', background: 'wheatsmoke', display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
+      <div>
+        <Grid item xs={12} style={{ borderBottom: '1px solid #CCCCCC'}}>
+          <div style={{ padding: 20}}>
+            <ScheulderHeader
+              selectValue={selectedOffice}
+              selectOptions={selectOptions}
+              selectLabel={selectLabel}
+              onSelectValueChange={handleSelectValChange}
+              />
+          </div>
+        </Grid>
+      </div>
+      <div style={{ flex: 1, height: 'inherit', overflow: 'hidden'}}>
+        <Grid container style={{height: 'inherit'}}>
+          <Grid item xs={12} sm={12} md={3} style={{ borderRight: '1px solid #CCCCCC', height: 'inherit'}}>
+            <div style={{ padding: 20, height: 'inherit'}}>
+              <SchedulerDatePicker
+                selectedDate={selectedDate}
+                handleDateChange={handleDateChange}
+                minDatePeriodFromNow={minDatePeriodFromNow}
+                maxDatePeriodFromNow={maxDatePeriodFromNow}
+                dateFormat={dateFormat}
+                />
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={9} style={{ height: 'inherit' }}>
+            <div style={{ padding: 20, height: 'inherit'}}>
+              <ScheulderAppointment selectedDate={selectedDate} selectedOffice={selectedOffice} />
+            </div>
+          </Grid>
+        </Grid>
+      </div>
+    </div>
   )
 }
 

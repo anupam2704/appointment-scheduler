@@ -6,6 +6,7 @@ export interface SchedulerSelectOption {
 export type SchedulerSelectOptions = Array<SchedulerSelectOption>
 
 export interface AppointmentData {
+  id: string;
   appointmentTime: string
   appointmentDuration: number
   appointmentType: string
@@ -46,4 +47,8 @@ export interface SchedulerProps {
   minDatePeriodFromNow?: number;
   maxDatePeriodFromNow?: number;
   dateFormat?: string;
+}
+
+export interface AppointmentRowProps {
+  apppointmentData: AppointmentData
 }

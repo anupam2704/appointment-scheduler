@@ -2,6 +2,7 @@ import { memo, ReactNode, useEffect, useState } from "react";
 import { AppointmentDataArray, SchedulerAppointmentProps } from "./SchedulerTypes";
 import CircularProgress from '@mui/material/CircularProgress';
 import { getAppointmentData } from "./SchedulerUtilts";
+import AppointmentRow from "./AppointmentRow";
 
 interface ScheulderAppointmentState {
   loading: boolean;
@@ -9,26 +10,34 @@ interface ScheulderAppointmentState {
   list: AppointmentDataArray;
 }
 
-const AppointmentLoader = () : JSX.Element => {
+const AppointmentLoader = (): JSX.Element => {
   return (
-    <div style={{ marginTop: 20, textAlign: 'center'}}>
+    <div style={{ marginTop: 20, textAlign: 'center' }}>
       <CircularProgress />
     </div>
   )
 }
 
-const AppointmentError = () : JSX.Element => {
+const AppointmentError = (): JSX.Element => {
   return (
-    <div style={{ padding: 30, fontSize: 14, color: 'red', textAlign: 'center'}}>
+    <div style={{ padding: 30, fontSize: 14, color: 'red', textAlign: 'center' }}>
       Failed to load appointments
     </div>
   )
 }
 
-const NoAppointmentView = () : JSX.Element => {
+const NoAppointmentView = (): JSX.Element => {
   return (
-    <div style={{ padding: 30, fontSize: 14, color: '#666666', textAlign: 'center'}}>
+    <div style={{ padding: 30, fontSize: 14, color: '#666666', textAlign: 'center' }}>
       No Appointments Scheduled
+    </div>
+  )
+}
+
+const NoSelectionView = (): JSX.Element => {
+  return (
+    <div style={{ padding: 30, fontSize: 14, color: '#666666', textAlign: 'center' }}>
+      Please select office and date to view appointments
     </div>
   )
 }
@@ -48,42 +57,56 @@ const ScheulderAppointment = ({ selectedDate, selectedOffice }: SchedulerAppoint
     list: []
   })
 
-  const {loading, error, list} = state;
+  const { loading, error, list } = state;
 
-  const fetchAppointment =  async () : Promise<void> => {
-    setState(prevState => ({...prevState, loading: true, error: false }))
+  const fetchAppointment = async (): Promise<void> => {
+    setState(prevState => ({ ...prevState, loading: true, error: false }))
     try {
       const res = await getAppointmentData()
-      setState(prevState => ({...prevState, loading: false, list: res }))
-    } catch(e) {
-      setState(prevState => ({...prevState, error: true }))
+      setState(prevState => ({ ...prevState, loading: false, list: res }))
+    } catch (e) {
+      setState(prevState => ({ ...prevState, error: true }))
     }
   }
 
   // Whenever date or selected option changes, make an api call
   useEffect(() => {
-    fetchAppointment()
+    if (selectedDate && selectedOffice) {
+      fetchAppointment()
+    }
   }, [selectedDate, selectedOffice])
 
-  const renderContent = () : ReactNode => {
-    if(!list.length) {
+  const renderContent = (): ReactNode => {
+    if (!list.length) {
       return (
         <NoAppointmentView />
       )
     } else {
       return (
-        <div>Some Appointments</div>
+        <div style={{ height: 'inherit', overflowY: 'auto'}}>
+          {list.map(item => (
+            <div key={item.id} style={{ marginBottom: 15 }}>
+              <AppointmentRow apppointmentData={item} />
+            </div>
+          ))}
+        </div>
       )
+
     }
 
   }
 
-  const renderDifferentStates = () : ReactNode => {
-    if(loading) {
+  const renderDifferentStates = (): ReactNode => {
+    if (!selectedDate || !selectedOffice) {
+      return (
+        <NoSelectionView />
+      )
+    }
+    if (loading) {
       return (
         <AppointmentLoader />
       )
-    } else if(error) {
+    } else if (error) {
       return (
         <AppointmentError />
       )
@@ -93,7 +116,7 @@ const ScheulderAppointment = ({ selectedDate, selectedOffice }: SchedulerAppoint
   }
 
   return (
-    <div style={{ width: '100%', height: 800}}>
+    <div style={{ width: '100%', height: 'inherit' }}>
       {renderDifferentStates()}
     </div>
   )

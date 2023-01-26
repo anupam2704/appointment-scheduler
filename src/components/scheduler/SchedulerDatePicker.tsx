@@ -40,7 +40,7 @@ const SchedulerDatePicker = (props: SchedulerDatePickerProps) => {
           disableOpenPicker
           label="Selected Date"
           inputFormat={dateFormat}
-          value={selectedDate || moment(new Date()).format(dateFormat)}
+          value={selectedDate}
           onChange={handleChange}
           minDate={typeof(minDatePeriodFromNow) === "number" ? new Date(new Date().setDate(new Date().getDate() - minDatePeriodFromNow)) : undefined}
           maxDate={typeof(maxDatePeriodFromNow) === "number" ? new Date(new Date().setDate(new Date().getDate() + maxDatePeriodFromNow)) : undefined}
