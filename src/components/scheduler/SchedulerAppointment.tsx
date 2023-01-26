@@ -1,11 +1,12 @@
 import { memo, ReactNode, useEffect, useState } from "react";
-import { SchedulerAppointmentProps } from "./SchedulerTypes";
+import { AppointmentDataArray, SchedulerAppointmentProps } from "./SchedulerTypes";
 import CircularProgress from '@mui/material/CircularProgress';
+import { getAppointmentData } from "./SchedulerUtilts";
 
 interface ScheulderAppointmentState {
   loading: boolean;
   error: boolean;
-  list: Array<any>;
+  list: AppointmentDataArray;
 }
 
 const AppointmentLoader = () : JSX.Element => {
@@ -49,9 +50,19 @@ const ScheulderAppointment = ({ selectedDate, selectedOffice }: SchedulerAppoint
 
   const {loading, error, list} = state;
 
+  const fetchAppointment =  async () : Promise<void> => {
+    setState(prevState => ({...prevState, loading: true, error: false }))
+    try {
+      const res = await getAppointmentData()
+      setState(prevState => ({...prevState, loading: false, list: res }))
+    } catch(e) {
+      setState(prevState => ({...prevState, error: true }))
+    }
+  }
+
   // Whenever date or selected option changes, make an api call
   useEffect(() => {
-    setState(prevState => ({...prevState}))
+    fetchAppointment()
   }, [selectedDate, selectedOffice])
 
   const renderContent = () : ReactNode => {

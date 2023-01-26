@@ -6,10 +6,19 @@ export interface SchedulerSelectOption {
 export type SchedulerSelectOptions = Array<SchedulerSelectOption>
 
 export interface AppointmentData {
-  label: string
+  appointmentTime: string
+  appointmentDuration: number
+  appointmentType: string
+  providerName: string;
+  patientName: string;
+  gurantorName: string;
+  appointmentStatus: "Check Out" | "Pending";
+  balance: number | null;
+  comments: string;
+  eligibility: "Eligible" | "Not Eligible"
 }
 
-export type AppointmentDataArray = AppointmentData;
+export type AppointmentDataArray = Array<AppointmentData>;
 
 export interface SchedulerHeaderProps {
   selectValue: string;
