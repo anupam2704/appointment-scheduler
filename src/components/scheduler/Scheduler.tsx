@@ -62,7 +62,7 @@ const Scheulder = (props: SchedulerProps) : JSX.Element => {
       </div>
       <div style={{ flex: 1, height: 'inherit', overflow: 'hidden'}}>
         <Grid container style={{height: 'inherit'}}>
-          <Grid item xs={12} sm={12} md={3} style={{ borderRight: '1px solid #CCCCCC', height: 'inherit'}}>
+          <Grid item style={{ borderRight: '1px solid #CCCCCC', height: 'inherit'}} sx={{ minWidth: 350}} sm={12} md={3}>
             <div style={{ padding: 20, height: 'inherit'}}>
               <SchedulerDatePicker
                 selectedDate={selectedDate}
@@ -73,7 +73,7 @@ const Scheulder = (props: SchedulerProps) : JSX.Element => {
                 />
             </div>
           </Grid>
-          <Grid item xs={12} sm={12} md={9} style={{ height: 'inherit' }}>
+          <Grid item style={{ height: 'inherit', flex: 1 }} sm={12} md={9}>
             <div style={{ padding: 20, height: 'inherit'}}>
               <ScheulderAppointment selectedDate={selectedDate} selectedOffice={selectedOffice} />
             </div>
